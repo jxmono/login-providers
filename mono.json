@@ -1,0 +1,16 @@
+{
+    "source": "github",
+    "owner": "IonicaBizau",
+    "name": "bitbucket-login",
+    "dependencies": [
+        "/main.js",
+        "/jquery.cookie.min.js",
+        "http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"
+    ],
+    "operations": [
+        { "file": "operations.js", "function": "redirect" },
+        { "file": "operations.js", "function": "login" },
+        { "file": "operations.js", "function": "logout" },
+        { "file": "operations.js", "function": "userInfo" }
+    ]
+}
