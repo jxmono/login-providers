@@ -74,7 +74,7 @@ function prepareForSession (user) {
         login: providerLogin.username,
         email: providerLogin.email,
         fullname: providerLogin.fullname,
-        accessToken: providerLogin.auth.access_token
+        auth: providerLogin.auth
     };
 
     return sessionData;
