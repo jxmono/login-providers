@@ -119,11 +119,11 @@ exports.getUserData = function (link, secrets, callback) {
                     fullname: profile.user.display_name,
                     email: email,
                     raw: profile,
+                    auth: {
+                        access_token: oauth_access_token,
+                        access_token_secret: oauth_access_token_secret
+                    },
                     // other provider specific data
-                    auth: [
-                        oauth_access_token,
-                        oauth_access_token_secret
-                    ],
                     emails: emails
                 };
 

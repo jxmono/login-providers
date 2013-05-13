@@ -95,7 +95,10 @@ exports.getUserData = function (link, secrets, callback) {
                     fullname: profile.name,
                     email: profile.email || email,
                     raw: profile,
-                    emails: emails
+                    emails: emails,
+                    auth: {
+                        access_token: accessToken
+                    }
                 };
 
                 callback(null, userData);
