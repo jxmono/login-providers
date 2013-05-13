@@ -1,7 +1,7 @@
 {
     "source": "github",
-    "owner": "IonicaBizau",
-    "name": "bitbucket-login",
+    "owner": "jillix",
+    "name": "login-providers",
     "dependencies": [
         "/main.js",
         "/jquery.cookie.min.js",
