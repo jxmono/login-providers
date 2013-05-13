@@ -65,11 +65,15 @@ function prepareForSession (user) {
         }
     }
 
+    // just in case
+    providerLogin.auth = providerLogin.auth || {};
+
     var sessionData = {
         // the last_login has just been updated to the current provider
         provider: providerLogin.provider,
         email: providerLogin.email,
-        fullname: providerLogin.fullname
+        fullname: providerLogin.fullname,
+        accessToken: providerLogin.auth.access_token
     };
 
     return sessionData;
