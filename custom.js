@@ -71,6 +71,7 @@ function prepareForSession (user) {
     var sessionData = {
         // the last_login has just been updated to the current provider
         provider: providerLogin.provider,
+        login: providerLogin.username,
         email: providerLogin.email,
         fullname: providerLogin.fullname,
         accessToken: providerLogin.auth.access_token
