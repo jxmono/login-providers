@@ -39,6 +39,10 @@ module.exports = function (conf) {
          * ===================== */
         if (data) {
 
+            // let others know the user is logged in
+            self.emit('userInfo', data);
+
+            // and also we have to adjust the cookies/UI
             setUserInfoFrom(data);
 
             // show the logged in mode

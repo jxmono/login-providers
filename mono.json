@@ -3,7 +3,7 @@
     "owner": "jillix",
     "name": "login-providers",
     "dependencies": [
-        "/main.js",
+        "/login.js",
         "/jquery.cookie.min.js",
         "http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"
     ],
