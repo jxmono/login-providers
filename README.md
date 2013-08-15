@@ -8,5 +8,7 @@
  - Emit `redirect` and redirect page as parameter
  - Cursor wait when click on Login button
  - Fixed redirect problem
+ - Strigify info value if it is an object
+ - `*` for showing the entire account object
 
 ### v0.1.0
