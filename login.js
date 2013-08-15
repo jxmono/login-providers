@@ -232,7 +232,19 @@ module.exports = function (conf) {
     function setUserInfoFrom(input) {
 
         $(self.dom).find('[data-key]').each(function() {
-            $(this).html(input[$(this).attr('data-key')]);
+
+            var key = $(this).attr('data-key');
+            var value = input[key];
+
+            if (key === "*") {
+                value = input;
+            }
+
+            if (typeof value === "object") {
+                value = JSON.stringify(value, null, 4);
+            }
+
+            $(this).html(value);
         });
 
     return;
