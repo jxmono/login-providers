@@ -1,3 +1,6 @@
+var Bind = require("github/jillix/bind");
+var Events = require("github/jillix/events");
+
 var self;
 var config;
 
@@ -17,6 +20,9 @@ module.exports = function (conf) {
     self = this;
     config = processConfig(conf);
     var query = parseQuery();
+
+    Events.call(self, config);
+    self.emit("ready", config);
 
     // this is the provider callback
     if (query.provider) {
@@ -85,12 +91,17 @@ module.exports = function (conf) {
         $(config.classes.logout).hide();
         $(config.classes.login).show();
 
-        // The page requires auth => redirects the 
+        // The page requires auth => redirects the
         // user automatically on the login link
         // TODO A better way?
         function verify() {
-            if (requiresAuth() && config.auth.login.redirect) {
-                window.location = config.auth.login.redirect;
+            var redirect = config.auth.login.redirect
+            if (requiresAuth() && redirect) {
+                if (typeof redirect === "object") {
+                    self.emit("redirect", redirect.page);
+                    return;
+                }
+                window.location = redirect;
             }
         }
 
@@ -99,7 +110,7 @@ module.exports = function (conf) {
         $(window).on("hashchange", function() {
             verify();
         });
-    });    
+    });
 }
 
 /*
@@ -123,17 +134,17 @@ function handleProviderCallback(query) {
 
 // Logout
 function logout(callback) {
-    
+
     for (var cookie in config.cookies) {
         $.removeCookie(cookie);
     }
-    
+
     self.link("logout", callback);
     self.emit("loggedOut");
 }
 
     /*
-        config: 
+        config:
 
         {
             loginPage:     ..., (default: "/bitbucket-login")
@@ -171,7 +182,7 @@ function logout(callback) {
 function processConfig(config) {
 
     // General
-    config.successPage = config.successPage || "/"; 
+    config.successPage = config.successPage || "/";
     config.logoutLink = config.logoutLink || "/logout";
 
     // Html Attributes
@@ -199,7 +210,7 @@ function processConfig(config) {
 
 // Gets callback code
 function getCode(url, str) {
-    return url.substring(url.indexOf(str) + str.length); 
+    return url.substring(url.indexOf(str) + str.length);
 }
 
 // Verify if the user is on a page that require authentification
@@ -207,12 +218,12 @@ function requiresAuth() {
 
     var location = window.location;
     var currentPage = location.pathname + location.hash + location.search;
-    
+
     // Return true if the page is on the list
     if (config.auth.pages.indexOf(currentPage) !== -1) {
         return true;
     }
-    
+
     // default: false
     return false;
 }
@@ -228,7 +239,7 @@ return;
 
     for (var key in config.cookies) {
         // TODO Dinamic HTML attributes?
-        
+
         // Get attributes
         var attributesValues = [];
 
@@ -236,14 +247,14 @@ return;
 
 
         if (attributesValues.indexOf(key) !== -1) {
-            
+
             var userInfoValue;
 
             // TODO Get cookies as object
             if (input === "cookies") {
                 userInfoValue = $.cookie(key);
             }
-            else 
+            else
             if (typeof input === "object") {
                 userInfoValue =  input[config.cookies[key]];
             }
@@ -255,8 +266,8 @@ return;
         }
     }
 
-    // Show the logout class if the user was 
-    // looged in previously (this means that there 
+    // Show the logout class if the user was
+    // looged in previously (this means that there
     // is at least a cookie that is saved)
     if (loggedPrev) {
         $(config.classes.login).hide();
@@ -267,4 +278,3 @@ return;
         $(config.classes.login).show();
     }
 }
-

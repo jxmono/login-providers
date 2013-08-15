@@ -5,6 +5,8 @@
     "dependencies": [
         "/login.js",
         "/jquery.cookie.min.js",
+        "github/jillix/bind/v0.1.1",
+        "github/jillix/events/v0.1.2",
         "http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"
     ],
     "operations": [
