@@ -13,3 +13,4 @@
  - Custom scopes defined in secrets
 
 ### v0.1.0
+ - Initial release
