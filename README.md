@@ -51,13 +51,13 @@
   , "login": {
         "module": "github/jillix/login-providers/MODULE_VERSION"
       , "roles": MONO_ROLES
-      , "config": CONFIG_OBJECT,
+      , "config": CONFIG_OBJECT
         "operations": {
             "redirect": {
                 "roles": MONO_ROLES
               , "params": [
                     { "secretsFile": "/path/to/secrets.json" }
-                    ...
+                  , ...
                 ]
             }
           , "login": {
@@ -68,6 +68,7 @@
                       , "ds": "accountDS"
                       , "role": "MONO_ROLE_NAME"
                     }
+                  , ...
                 ]
             }
           , "logout": {
