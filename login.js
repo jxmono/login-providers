@@ -196,12 +196,12 @@ module.exports = function (conf) {
         config.htmlAttributes.cookies.userInfo = config.htmlAttributes.cookies.userInfo || "data-user-cookie-info";
 
         // Classes
-        config.classes = config.classes || {};
-        config.classes.loginButton = config.classes.loginButton || ".login-button";
-        config.classes.login = config.classes.login || ".login";
-        config.classes.logout = config.classes.logout || ".logout";
-        config.classes.logoutLink = config.classes.logoutLink || ".logout-btn";
-        config.classes.userName = config.classes.userName || ".userName";
+        config.ui = config.classes || {};
+        config.ui.loginButton = config.classes.loginButton || ".login-button";
+        config.ui.login = config.classes.login || ".login";
+        config.ui.logout = config.classes.logout || ".logout";
+        config.ui.logoutLink = config.classes.logoutLink || ".logout-btn";
+        config.ui.userName = config.classes.userName || ".userName";
 
         // Auth
         config.auth = config.auth || {};
