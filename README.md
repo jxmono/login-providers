@@ -1,5 +1,89 @@
 # Login providers
 
+## Config
+
+```js
+{
+    // general
+    successPage:   ...      // (default: "/")
+  , logoutLink:    ...      // (default: "/logout")
+
+    // this will be passed to the redirection link; not required
+  , redirect_uri:  ...
+
+    // HTML attributes
+  , htmlAttributes: {
+        cookies: {
+            "userInfo": ... // (default: "data-user-cookie-info")
+        }
+    }
+
+    // jquery selectors for the login controls
+  , ui: {
+        loginButton: ...    // (default: ".login-button")
+      , login:       ...    // (default: ".login")
+      , logout:      ...    // (default: ".logout")
+      , logoutLink:  ...    // (default: ".logout-btn")
+      , notLogged:   ...    // (default: ".fail")
+      , username:    ...    // (default: ".userName")
+    }
+
+    // auth data
+  , auth: {
+        login: {
+            redirect: ...   // (default: empty object)
+        },
+        logout: {
+            redirect: ...   // (default: empty object)
+        },
+        pages: [
+            "/examplePathName#withHash?andSomethingSearch" // (default: empty array)
+        ]
+    }
+}
+```
+
+## Example
+
+```json
+{
+    ...
+  , "login": {
+        "module": "github/jillix/login-providers/MODULE_VERSION"
+      , "roles": MONO_ROLES
+      , "config": CONFIG_OBJECT,
+        "operations": {
+            "redirect": {
+                "roles": MONO_ROLES
+              , "params": [
+                    { "secretsFile": "/path/to/secrets.json" }
+                    ...
+                ]
+            }
+          , "login": {
+                "roles": MONO_ROLES
+              , "params": [
+                    {
+                        "secretsFile": "/path/to/secrets.json"
+                      , "ds": "accountDS"
+                      , "role": "MONO_ROLE_NAME"
+                    }
+                ]
+            }
+          , "logout": {
+                "roles": MONO_ROLES
+              , "params": []
+            }
+          , "userInfo": {
+                "roles": MONO_ROLES
+              , "params": []
+            }
+        }
+    }
+  , ...
+}
+```
+
 # Changelog
 
 ### dev
@@ -11,6 +95,8 @@
  - Strigify info value if it is an object
  - `*` for showing the entire account object
  - Custom scopes defined in secrets
+ - Some syntax changes and comments
+ - Replaced `classes` object name with `ui`.
 
 ### v0.1.0
  - Initial release
