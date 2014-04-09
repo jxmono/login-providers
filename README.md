@@ -53,7 +53,7 @@ Mono login modules using external providers like Github, Bitbucket etc.
         "module": "github/jillix/login-providers/MODULE_VERSION"
       , "roles": MONO_ROLES
       , "config": CONFIG_OBJECT
-        "operations": {
+      , "operations": {
             "redirect": {
                 "roles": MONO_ROLES
               , "params": [
