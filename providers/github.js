@@ -27,7 +27,7 @@ exports.redirectLink = function (link, secrets, callback) {
         setupGlobals(secrets);
     }
 
-    var scopes = [
+    var scopes = secrets.scopes || [
         "repo",
         "user",
         "user:email",
@@ -113,8 +113,8 @@ exports.getUserData = function (link, secrets, callback) {
  * or if there appears an error will send the error.
  */
 function getAccessToken(code, callback) {
-    var url = "https://github.com/login/oauth/access_token?client_id=" + 
-        CLIENT_ID + (REDIRECT_URI ? "&redirect_uri=" + REDIRECT_URI : "") + 
+    var url = "https://github.com/login/oauth/access_token?client_id=" +
+        CLIENT_ID + (REDIRECT_URI ? "&redirect_uri=" + REDIRECT_URI : "") +
         "&client_secret=" + SECRET_KEY + "&code=" + code;
 
     var options = {
