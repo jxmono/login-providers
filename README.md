@@ -86,6 +86,23 @@ Mono login modules using external providers like Github, Bitbucket etc.
 }
 ```
 
+## Secrets.json
+
+```json
+{
+    "github": {
+        "clientId": "your app client id"
+      , "secretKey": "your secret key"
+      , "scopes": ["scope", "another scope"]
+    }
+  , "anotherProvider": {
+        "clientId": "your app client id"
+      , "secretKey": "your secret key"
+      , "scopes": ["scope", "another scope"]
+    }
+}
+```
+
 # Changelog
 
 ### dev
