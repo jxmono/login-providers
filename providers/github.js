@@ -1,20 +1,30 @@
-var request = require("request");
+// dependencies and globals
+var request = require("request")
+  , Github = require('github')
+  , gh = new Github({ version: '3.0.0' })
 
-var Github = require('github');
-var gh = new Github({ version: '3.0.0' });
-
-// globals
-var SECRET_KEY;
-var CLIENT_ID;
-var REDIRECT_URI;
+  , SECRET_KEY
+  , CLIENT_ID
+  , REDIRECT_URI
+  ;
 
 
+/**
+ *  This sets the global variables
+ *
+ */
 function setupGlobals(secrets) {
     SECRET_KEY = secrets.secretKey;
     CLIENT_ID = secrets.clientId;
     REDIRECT_URI = secrets.redirectUri;
 }
 
+/**
+ *  This function computes the redirection link by providing
+ *  the link object, the secrets object and the callback
+ *  function
+ *
+ */
 exports.redirectLink = function (link, secrets, callback) {
 
     // validate secrets
@@ -27,6 +37,7 @@ exports.redirectLink = function (link, secrets, callback) {
         setupGlobals(secrets);
     }
 
+    // try to get the scopes from secrets object
     var scopes = secrets.scopes || [
         "repo",
         "user",
@@ -39,14 +50,21 @@ exports.redirectLink = function (link, secrets, callback) {
         "gist"
     ];
 
-    var url =
-        "https://github.com/login/oauth/authorize?client_id=" + CLIENT_ID +
-        (REDIRECT_URI ? "&redirect_uri=" + REDIRECT_URI : "") +
-        "&scope=" + scopes.join();
+    // create the redirection url
+    var url = "https://github.com/login/oauth/authorize?client_id=" + CLIENT_ID +
+              (REDIRECT_URI ? "&redirect_uri=" + REDIRECT_URI : "") +
+              "&scope=" + scopes.join();
 
+    // and callback it
     callback(null, url);
 };
 
+/**
+ *  This function gets the user data by providing
+ *  the link object, the secrets object and the callback
+ *  function
+ *
+ */
 exports.getUserData = function (link, secrets, callback) {
 
     // validate secrets
@@ -67,21 +85,27 @@ exports.getUserData = function (link, secrets, callback) {
     // Get access token
     getAccessToken(link.data.code, function(err, accessToken) {
 
+        // handle error
         if (err) { return callback(err); }
 
         // authneticate the request
         gh.authenticate({ type: 'oauth', token: accessToken });
 
+        // get github user data
         gh.user.get({}, function(err, profile) {
 
+            // handle error
             if (err) { return callback(err); }
 
+            // get user emails
             gh.user.getEmails({}, function(err, emails) {
 
+                // handle error
                 if (err) { return callback(err); }
 
                 // the user must have at least one active primary email address
                 var email = emails[0];
+
                 // TODO watch this pull request or wait until the emails come in the new format (similar to Bitbucket):
                 // https://github.com/ajaxorg/node-github/pull/17
                 if (!email) {
@@ -101,6 +125,7 @@ exports.getUserData = function (link, secrets, callback) {
                     }
                 };
 
+                // callback user data
                 callback(null, userData);
             });
         });
@@ -108,23 +133,29 @@ exports.getUserData = function (link, secrets, callback) {
 };
 
 /**
- * Get access token
- * This function will return access token IF the temp code is correct
- * or if there appears an error will send the error.
+ *  Get access token
+ *  This function will return access token IF the temp code is correct
+ *  or if there appears an error will send the error.
+ *
  */
 function getAccessToken(code, callback) {
-    var url = "https://github.com/login/oauth/access_token?client_id=" +
-        CLIENT_ID + (REDIRECT_URI ? "&redirect_uri=" + REDIRECT_URI : "") +
-        "&client_secret=" + SECRET_KEY + "&code=" + code;
 
+    // build the redirection url
+    var url = "https://github.com/login/oauth/access_token?client_id=" + CLIENT_ID +
+              (REDIRECT_URI ? "&redirect_uri=" + REDIRECT_URI : "") +
+              "&client_secret=" + SECRET_KEY + "&code=" + code;
+
+    // request options
     var options = {
         url: url,
         json: true
         //headers: { 'accept': 'application/json' }
     };
 
+    // run the post request
     request.post(options, function (err, res, body) {
 
+        // handle errors
         if (err || res.statusCode !== 200) {
             return callback(err || 'Github returned ' + res.statusCode);
         }
@@ -133,7 +164,7 @@ function getAccessToken(code, callback) {
             return callback(body.error);
         }
 
+        // success
         callback(null, body.access_token);
     });
 }
-
