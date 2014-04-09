@@ -1,4 +1,5 @@
 # Login providers
+Mono login modules using external providers like Github, Bitbucket etc.
 
 ## Config
 
