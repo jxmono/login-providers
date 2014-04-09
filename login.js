@@ -1,4 +1,3 @@
-M.wrap('github/jillix/login-providers/v0.2.0/login.js', function (require, module, exports) {
 // bind and events dependencies
 var Bind = require("github/jillix/bind")
   , Events = require("github/jillix/events")
@@ -268,5 +267,3 @@ module.exports = function (conf) {
         });
     }
 }
-
-return module; });
