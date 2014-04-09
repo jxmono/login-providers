@@ -1,6 +1,12 @@
-var Bind = require("github/jillix/bind");
-var Events = require("github/jillix/events");
+// bind and events dependencies
+var Bind = require("github/jillix/bind")
+  , Events = require("github/jillix/events")
+  ;
 
+/**
+ *  This function parses the query from url
+ *
+ */
 function parseQuery() {
     var query = window.location.search.substring(1);
     var vars = query.split('&');
@@ -12,29 +18,38 @@ function parseQuery() {
     return result;
 }
 
+/**
+ *  Login Providers
+ *  Mono login modules using external providers like Github, Bitbucket, etc
+ *
+ */
 module.exports = function (conf) {
 
-    var self;
-    var config;
+    // get self, config and query
+    var self = this
+      , config = processConfig (conf)
+      , query = parseQuery ()
+      ;
 
-    self = this;
-    config = processConfig(conf);
-    var query = parseQuery();
-
+    // call events
     Events.call(self, config);
+
+    // emit ready
     self.emit("ready", config);
 
     // this is the provider callback
     if (query.provider) {
-        handleProviderCallback(query);
+        handleProviderCallback (query);
         return;
     }
 
     // show early the user info if this is available in the cookies
     //setUserInfoFrom("cookies");
 
+    // get the userinfo
     self.link("userInfo", function(err, data) {
 
+        // handle error
         if (err) {
             alert(err);
             return;
@@ -57,6 +72,8 @@ module.exports = function (conf) {
 
             // add the logout handler
             $(self.dom).on("click", config.classes.logoutLink, function() {
+
+                // call logout operation
                 logout(function() {
                     window.location = config.successPage;
                 });
@@ -75,14 +92,22 @@ module.exports = function (conf) {
             $.removeCookie(cookie);
         }
 
+        // login handlers
         $(self.dom).on('click', config.classes.loginButton, function() {
 
+            // change the cursor
             $("body").css("cursor", "wait");
+
+            // send the provider
             self.link('redirect', { data: { provider: $(this).attr('data-provider') } }, function(err, data) {
+
+                // handle error
                 if (err) {
-                    console.log(err);
+                    console.error (err);
                     return;
                 }
+
+                // success, redirect
                 window.location = data;
             });
             return false;
@@ -113,70 +138,49 @@ module.exports = function (conf) {
         });
     });
 
-    /*
+    /**
      * This will be called when the login provider calls back on us.
+     *
      */
     function handleProviderCallback(query) {
+
+        // hide login
         $(config.classes.login, self.dom).hide();
 
+        // get cookies
         query.cookies = config.cookies;
 
         // call login operation
         self.link("login", { data: query }, function(err, data) {
+
+            // handle error
             if (err) {
-                console.log(err);
+                console.error(err);
                 return;
             }
 
+            // redirect
             window.location = config.successPage;
         });
     }
 
-    // Logout
+    /**
+     *  Logout operation
+     *
+     */
     function logout(callback) {
 
+        // remove cookies
         for (var cookie in config.cookies) {
             $.removeCookie(cookie);
         }
 
+        // call logout operation
         self.link("logout", callback);
+
+        // emit logged out
         self.emit("loggedOut");
     }
-
-        /*
-            config:
-
-            {
-                loginPage:     ..., (default: "/bitbucket-login")
-                successPage:   ..., (default: "/")
-                redirect_uri:  ...,
-                logoutLink:    ..., (default: "/logout")
-                htmlAttributes: {
-                    cookies: {
-                        "userInfo": "data-user-cookie-info"
-                    }
-                }
-                classes: {
-                    loginButton: ..., (default: ".login-button")
-                    login:     ..., (default: ".login")
-                    logout:    ..., (default: ".logout")
-                    logoutLink:..., (default: ".logout-btn")
-                    notLogged: ..., (default: ".fail")
-                    username:  ... (default: ".userName")
-                },
-                auth: {
-                    login: {
-                        redirect: ..., (default: true)
-                    },
-                    logout: {
-                        redirect: ..., (default: false)
-                    },
-                    pages: [
-                        "/examplePathName#withHash?andSomethingSearch"
-                    ]
-                }
-            }
-        */
 
     // Sets defaults, and correct empty objects
     function processConfig(config) {
@@ -208,12 +212,18 @@ module.exports = function (conf) {
         return config;
     }
 
-    // Gets callback code
+    /**
+     *  Gets callback code
+     *
+     */
     function getCode(url, str) {
         return url.substring(url.indexOf(str) + str.length);
     }
 
-    // Verify if the user is on a page that require authentification
+    /**
+     * Verify if the user is on a page that require authentification
+     *
+     */
     function requiresAuth() {
 
         var location = window.location;
@@ -228,66 +238,32 @@ module.exports = function (conf) {
         return false;
     }
 
-    // Set user info from "cookies" or from an object
+    /**
+     * Set user info from "cookies" or from an object
+     *
+     */
     function setUserInfoFrom(input) {
 
+        // each data-key element
         $(self.dom).find('[data-key]').each(function() {
 
-            var key = $(this).attr('data-key');
-            var value = input[key];
+            // get its key and value
+            var key = $(this).attr('data-key')
+              , value = input[key]
+              ;
 
+            // "*" is special
             if (key === "*") {
                 value = input;
             }
 
+            // value is an object that must be stringified
             if (typeof value === "object") {
                 value = JSON.stringify(value, null, 4);
             }
 
+            // set the html for this element
             $(this).html(value);
         });
-
-    return;
-
-        for (var key in config.cookies) {
-            // TODO Dinamic HTML attributes?
-
-            // Get attributes
-            var attributesValues = [];
-
-            var userInfoAttr = config.htmlAttributes.cookies.userInfo;
-
-
-            if (attributesValues.indexOf(key) !== -1) {
-
-                var userInfoValue;
-
-                // TODO Get cookies as object
-                if (input === "cookies") {
-                    userInfoValue = $.cookie(key);
-                }
-                else
-                if (typeof input === "object") {
-                    userInfoValue =  input[config.cookies[key]];
-                }
-
-                if (userInfoValue) {
-                    loggedPrev = true;
-                    $("*[" + userInfoAttr + "=" + key + "]", self.dom).text(userInfoValue);
-                }
-            }
-        }
-
-        // Show the logout class if the user was
-        // looged in previously (this means that there
-        // is at least a cookie that is saved)
-        if (loggedPrev) {
-            $(config.classes.login).hide();
-            $(config.classes.logout).show();
-        }
-        else {
-            $(config.classes.logout).hide();
-            $(config.classes.login).show();
-        }
     }
 }
