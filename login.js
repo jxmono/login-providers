@@ -1,3 +1,4 @@
+M.wrap('github/jillix/login-providers/v0.2.0/login.js', function (require, module, exports) {
 // bind and events dependencies
 var Bind = require("github/jillix/bind")
   , Events = require("github/jillix/events")
@@ -67,11 +68,11 @@ module.exports = function (conf) {
             setUserInfoFrom(data);
 
             // show the logged in mode
-            $(config.classes.login, self.dom).hide();
-            $(config.classes.logout, self.dom).show();
+            $(config.ui.login, self.dom).hide();
+            $(config.ui.logout, self.dom).show();
 
             // add the logout handler
-            $(self.dom).on("click", config.classes.logoutLink, function() {
+            $(self.dom).on("click", config.ui.logoutLink, function() {
 
                 // call logout operation
                 logout(function() {
@@ -93,7 +94,7 @@ module.exports = function (conf) {
         }
 
         // login handlers
-        $(self.dom).on('click', config.classes.loginButton, function() {
+        $(self.dom).on('click', config.ui.loginButton, function() {
 
             // change the cursor
             $("body").css("cursor", "wait");
@@ -114,8 +115,8 @@ module.exports = function (conf) {
         });
 
         // show the correct UI parts
-        $(config.classes.logout).hide();
-        $(config.classes.login).show();
+        $(config.ui.logout).hide();
+        $(config.ui.login).show();
 
         // The page requires auth => redirects the
         // user automatically on the login link
@@ -145,7 +146,7 @@ module.exports = function (conf) {
     function handleProviderCallback(query) {
 
         // hide login
-        $(config.classes.login, self.dom).hide();
+        $(config.ui.login, self.dom).hide();
 
         // get cookies
         query.cookies = config.cookies;
@@ -196,12 +197,12 @@ module.exports = function (conf) {
         config.htmlAttributes.cookies.userInfo = config.htmlAttributes.cookies.userInfo || "data-user-cookie-info";
 
         // Classes
-        config.ui = config.classes || {};
-        config.ui.loginButton = config.classes.loginButton || ".login-button";
-        config.ui.login = config.classes.login || ".login";
-        config.ui.logout = config.classes.logout || ".logout";
-        config.ui.logoutLink = config.classes.logoutLink || ".logout-btn";
-        config.ui.userName = config.classes.userName || ".userName";
+        config.ui = config.ui || {};
+        config.ui.loginButton = config.ui.loginButton || ".login-button";
+        config.ui.login = config.ui.login || ".login";
+        config.ui.logout = config.ui.logout || ".logout";
+        config.ui.logoutLink = config.ui.logoutLink || ".logout-btn";
+        config.ui.userName = config.ui.userName || ".userName";
 
         // Auth
         config.auth = config.auth || {};
@@ -267,3 +268,5 @@ module.exports = function (conf) {
         });
     }
 }
+
+return module; });
