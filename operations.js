@@ -71,10 +71,6 @@ exports.redirect = function (link) {
                 return killSession(link, 500, err);
             }
 
-            // TODO
-            //link.res.headers["location"] = url;
-            //link.send(308, "page redirected");
-
             link.send(200, url);
         });
     });
