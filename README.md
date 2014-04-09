@@ -106,7 +106,7 @@ Mono login modules using external providers like Github, Bitbucket etc.
 
 # Changelog
 
-### dev
+### v0.2.1
  - Removed `custom.js` from module
  - Fixed a bug generated after replacing `classes` with `ui`.
 
