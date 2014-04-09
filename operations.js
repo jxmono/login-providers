@@ -129,6 +129,19 @@ exports.login = function (link) {
         return;
     }
 
+    // no custom file
+    if (!link.params.custom) {
+        link.send(400, "Please define a path to the login custom file");
+        return;
+    } else {
+        try {
+            // get the custom code
+            var custom = require (M.app.getPath() + link.params.custom);
+        } catch (e) {
+            return link.send(400, "Invalid file path or syntax");
+        }
+    }
+
     // get cookies and logged user role
     var cookies = link.data.cookies
       , loggedUserRole = link.params.role
@@ -158,10 +171,6 @@ exports.login = function (link) {
 
         // add the provider to the user data
         providerUserData.provider = link.data.provider;
-
-        // get the custom code
-        // TODO move this in application
-        var custom = require('./custom.js');
 
         // login
         custom.login(link, providerUserData, function (err, userId, locale, data) {
