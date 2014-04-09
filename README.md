@@ -10,5 +10,6 @@
  - Fixed redirect problem
  - Strigify info value if it is an object
  - `*` for showing the entire account object
+ - Custom scopes defined in secrets
 
 ### v0.1.0
