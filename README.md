@@ -66,6 +66,7 @@ Mono login modules using external providers like Github, Bitbucket etc.
               , "params": [
                     {
                         "secretsFile": "/path/to/secrets.json"
+                        "custom": "/path/to/login_custom.js"
                       , "ds": "accountDS"
                       , "role": "MONO_ROLE_NAME"
                     }
@@ -106,6 +107,8 @@ Mono login modules using external providers like Github, Bitbucket etc.
 # Changelog
 
 ### dev
+ - Removed `custom.js` from module
+ - Fixed a bug generated after replacing `classes` with `ui`.
 
 ### v0.2.0
  - Added Events and Bind dependencies
