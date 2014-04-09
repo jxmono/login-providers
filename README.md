@@ -106,6 +106,8 @@ Mono login modules using external providers like Github, Bitbucket etc.
 # Changelog
 
 ### dev
+
+### v0.2.0
  - Added Events and Bind dependencies
  - Emit `ready`
  - Emit `redirect` and redirect page as parameter
