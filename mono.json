@@ -1,17 +1,17 @@
 {
-    "source": "github",
-    "owner": "jillix",
-    "name": "login-providers",
-    "dependencies": [
-        "/login.js",
-        "/jquery.cookie.min.js",
-        "github/jillix/events/v0.1.9",
-        "github/jillix/bind/v0.2.1"
-    ],
-    "operations": [
-        { "file": "operations.js", "function": "redirect" },
-        { "file": "operations.js", "function": "login" },
-        { "file": "operations.js", "function": "logout" },
-        { "file": "operations.js", "function": "userInfo" }
+    "source": "github"
+  , "owner": "jillix"
+  , "name": "login-providers"
+  , "dependencies": [
+        "/login.js"
+      , "/jquery.cookie.min.js"
+      , "github/jillix/events/v0.1.10"
+      , "github/jillix/bind/v0.2.2"
+    ]
+  , "operations": [
+        { "file": "operations.js", "function": "redirect" }
+      , { "file": "operations.js", "function": "login" }
+      , { "file": "operations.js", "function": "logout" }
+      , { "file": "operations.js", "function": "userInfo" }
     ]
 }
