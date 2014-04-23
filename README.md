@@ -106,6 +106,9 @@ Mono login modules using external providers like Github, Bitbucket etc.
 
 # Changelog
 
+### v0.2.3
+ - Updated Bind and Events
+
 ### v0.2.2
  - Updated Bind and Events
 
