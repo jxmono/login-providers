@@ -1,11 +1,14 @@
-// bind and events dependencies
-var Bind = require("github/jillix/bind")
-  , Events = require("github/jillix/events")
-  ;
+// Dependencies
+var Bind = require("github/jillix/bind");
+var Events = require("github/jillix/events");
 
 /**
- *  This function parses the query from url
+ * parseQuery
+ * This function parses the query from url
  *
+ * @name parseQuery
+ * @function
+ * @return {Object} An object with param names and values from location search
  */
 function parseQuery() {
     var query = window.location.search.substring(1);
@@ -26,10 +29,9 @@ function parseQuery() {
 module.exports = function (conf) {
 
     // get self, config and query
-    var self = this
-      , config = processConfig (conf)
-      , query = parseQuery ()
-      ;
+    var self = this;
+    var config = processConfig(conf);
+    var query = parseQuery();
 
     // call events
     Events.call(self, config);
@@ -39,7 +41,7 @@ module.exports = function (conf) {
 
     // this is the provider callback
     if (query.provider) {
-        handleProviderCallback (query);
+        handleProviderCallback(query);
         return;
     }
 
@@ -117,9 +119,15 @@ module.exports = function (conf) {
         $(config.ui.logout).hide();
         $(config.ui.login).show();
 
-        // The page requires auth => redirects the
-        // user automatically on the login link
-        // TODO A better way?
+        /**
+         * verify
+         * The page requires auth => redirects the
+         * user automatically on the login link
+         *
+         * @name verify
+         * @function
+         * @return
+         */
         function verify() {
             var redirect = config.auth.login.redirect
             if (requiresAuth() && redirect) {
@@ -139,8 +147,13 @@ module.exports = function (conf) {
     });
 
     /**
+     * handleProviderCallback
      * This will be called when the login provider calls back on us.
      *
+     * @name handleProviderCallback
+     * @function
+     * @param {Object} query The query object
+     * @return
      */
     function handleProviderCallback(query) {
 
@@ -165,8 +178,13 @@ module.exports = function (conf) {
     }
 
     /**
-     *  Logout operation
+     * logout
+     * Logout operation
      *
+     * @name logout
+     * @function
+     * @param {Function} callback The callback function
+     * @return
      */
     function logout(callback) {
 
@@ -182,7 +200,15 @@ module.exports = function (conf) {
         self.emit("loggedOut");
     }
 
-    // Sets defaults, and correct empty objects
+    /**
+     * processConfig
+     * Sets defaults, and correct empty objects
+     *
+     * @name processConfig
+     * @function
+     * @param {Object} config Module config
+     * @return {Object} Processed module configuration
+     */
     function processConfig(config) {
 
         // General
@@ -213,16 +239,26 @@ module.exports = function (conf) {
     }
 
     /**
-     *  Gets callback code
+     * getCode
+     * Gets callback code
      *
+     * @name getCode
+     * @function
+     * @param {String} url The url value
+     * @param {String} str String value that will be searched in url
+     * @return {String} Temporal code value
      */
     function getCode(url, str) {
         return url.substring(url.indexOf(str) + str.length);
     }
 
     /**
+     * requiresAuth
      * Verify if the user is on a page that require authentification
      *
+     * @name requiresAuth
+     * @function
+     * @return {Boolean} Returns true if the page requires auth.
      */
     function requiresAuth() {
 
@@ -239,8 +275,13 @@ module.exports = function (conf) {
     }
 
     /**
+     * setUserInfoFrom
      * Set user info from "cookies" or from an object
      *
+     * @name setUserInfoFrom
+     * @function
+     * @param {Object} input User data
+     * @return
      */
     function setUserInfoFrom(input) {
 
@@ -248,9 +289,8 @@ module.exports = function (conf) {
         $(self.dom).find('[data-key]').each(function() {
 
             // get its key and value
-            var key = $(this).attr('data-key')
-              , value = input[key]
-              ;
+            var key = $(this).attr('data-key');
+            var value = input[key];
 
             // "*" is special
             if (key === "*") {
