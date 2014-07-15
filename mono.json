@@ -5,7 +5,7 @@
   , "dependencies": [
         "/login.js"
       , "/jquery.cookie.min.js"
-      , "github/jillix/events/v0.1.10"
+      , "github/jillix/events/v0.1.11"
       , "github/jillix/bind/v0.2.2"
     ]
   , "operations": [
