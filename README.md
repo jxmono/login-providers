@@ -106,6 +106,10 @@ Mono login modules using external providers like Github, Bitbucket etc.
 
 # Changelog
 
+### v0.2.4
+ - JSDoc comments
+ - Upgraded to Events@v0.1.11
+
 ### v0.2.3
  - Updated Bind and Events
 
