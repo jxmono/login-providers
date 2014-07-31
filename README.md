@@ -106,6 +106,9 @@ Mono login modules using external providers like Github, Bitbucket etc.
 
 # Changelog
 
+### v0.3.0
+ - Updated deps
+
 ### v0.2.4
  - JSDoc comments
  - Upgraded to Events@v0.1.11

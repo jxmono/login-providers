@@ -5,8 +5,8 @@
   , "dependencies": [
         "/login.js"
       , "/jquery.cookie.min.js"
-      , "github/jillix/events/v0.1.11"
-      , "github/jillix/bind/v0.2.2"
+      , "github/jillix/events/v0.3.0"
+      , "github/jillix/bind/v0.3.0"
     ]
   , "operations": [
         { "file": "operations.js", "function": "redirect" }
